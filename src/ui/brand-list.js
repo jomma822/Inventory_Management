@@ -10,6 +10,7 @@ export default class BrandList extends Component {
     
     render() {
         const { list } = this.props;
+        console.log(list)
         return (
             <Table celled>
                 <Table.Header>

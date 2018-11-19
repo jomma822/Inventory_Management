@@ -29,7 +29,6 @@ export class Brands extends Component {
     }
 
     handleNameChange(evt) {
-        const { list } = this.props.brand;
         const state = Object.assign({}, this.state, { [evt.target.name]: evt.target.value });
         this.setState(state);
         this.validate(state)

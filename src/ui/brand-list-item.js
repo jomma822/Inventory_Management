@@ -12,7 +12,7 @@ export default class BrandListItem extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{item.name}</Table.Cell>
-                <Table.Cell>{`${item.createdOn.dayOfMonth}-${item.createdOn.monthValue}-${item.createdOn.year}`}</Table.Cell>
+                <Table.Cell>{`${item.createdOn.date.month}-${item.createdOn.date.day}-${item.createdOn.date.year}`}</Table.Cell>
             </Table.Row>
         )
     }
