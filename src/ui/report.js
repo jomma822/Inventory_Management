@@ -34,6 +34,7 @@ class Report extends Component {
                         <label>Start Date: </label>
                         <input 
                             name='startDate'
+                            type='date'
                             value={this.state.startDate} 
                             onChange={this.handleChange.bind(this)}
                         />
@@ -42,6 +43,7 @@ class Report extends Component {
                         <label>End Date: </label>
                         <input 
                             name='endDate'
+                            type='date'
                             value={this.state.endDate} 
                             onChange={this.handleChange.bind(this)}
                         />
@@ -67,7 +69,7 @@ class Report extends Component {
                                 <Table.Cell >{report.supplierEmail}</Table.Cell>
                                 <Table.Cell>{report.productName}</Table.Cell>
                                 <Table.Cell>{report.quantity}</Table.Cell>
-                                <Table.Cell>{report.quantity}</Table.Cell>
+                                <Table.Cell>{`${report.localDateTime.monthValue}-${report.localDateTime.dayOfMonth}-${report.localDateTime.year}`}</Table.Cell>
                             </Table.Row>
                         )
                     })

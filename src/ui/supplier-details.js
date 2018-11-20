@@ -43,7 +43,11 @@ export class SupplierDetails extends Component {
 
     validate(state) {
         const { productId, quantity, price } = state;
-        if(!productId || !quantity || !price) {
+        if(!productId ||
+            !quantity || 
+            !price ||
+            quantity.trim() === "" ||
+            price.trim() === "") {
             this.setState({ disableButton: true });
         } else if(parseInt(quantity) < 25) {
             this.setState({ disableButton: true, error: 'Quantity should not be less than 25'})

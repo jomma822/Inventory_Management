@@ -11,7 +11,7 @@ export default class ProductListItem extends Component {
             <Table.Row>
                 <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell>{item.brandName}</Table.Cell>
-                <Table.Cell>{`${item.createdOn.dayOfMonth}-${item.createdOn.monthValue}-${item.createdOn.year}`}</Table.Cell>
+                <Table.Cell>{`${item.createdOn.monthValue}-${item.createdOn.dayOfMonth}-${item.createdOn.year}`}</Table.Cell>
             </Table.Row>
         )
     }

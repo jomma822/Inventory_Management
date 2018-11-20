@@ -17,7 +17,7 @@ export class Suppliers extends Component {
         this.props.getSuppliers();
     }
     openAddModal() {
-        this.setState({ addModal: true }, { name: ''});
+        this.setState({ addModal: true , name: ''});
     }
     closeAddModal() {
         this.setState({ addModal: false });

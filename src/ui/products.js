@@ -101,7 +101,7 @@ export class Products extends Component {
                         {
                             this.state.error === true && 
                             <label>
-                                This product already exists for the same brand, Plese update quantity
+                                This product already exists for the same brand!
                             </label>
                         }
                         {
