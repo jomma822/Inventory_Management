@@ -40,6 +40,7 @@ export default class SupplierProductListItem extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{item.product.name}</Table.Cell>
+                <Table.Cell>{item.product.brandName}</Table.Cell>
                 <Table.Cell>
                     {
                         this.state.edit ? 

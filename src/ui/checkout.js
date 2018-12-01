@@ -25,7 +25,7 @@ export class Checkout extends Component {
     onProductChange(evt, data) {
         const selectedSupplierProduct = this.props.supplier.supplierProducts
             .filter(supplier => supplier.product.id === data.value)
-        console.log(selectedSupplierProduct)
+        console.log('selected supplier product',selectedSupplierProduct)
         this.setState({ productId: data.value, availableQuantity: selectedSupplierProduct[0].quantity, supplierProductId: selectedSupplierProduct[0].id });
     }
 
@@ -52,6 +52,7 @@ export class Checkout extends Component {
     }
 
     render() {
+        console.log(this.state)
         const supplierOptions = this.props.supplier.list.map(supplier => {
             return {
                 key: supplier.id,
@@ -69,7 +70,6 @@ export class Checkout extends Component {
                 text: sp.name
             }
         })) : []
-        console.log(productOptions)
         return (
             <div>
                 <Header>Checkout Products From Suppliers</Header>

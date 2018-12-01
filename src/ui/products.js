@@ -11,7 +11,9 @@ export class Products extends Component {
         this.state = {
             addModal: false,
             error: false,
-            buttonDisabled: true
+            buttonDisabled: true,
+            name: '',
+            sku:'',
         }
     }
     componentDidMount() {
@@ -37,8 +39,13 @@ export class Products extends Component {
     }
 
     validate(state) {
-        const { name } = state;
-        if ((name.trim() === "") || !name || validator.isEmpty(name)) {
+        const { name, sku } = state;
+        if ((name.trim() === "") ||
+         !name || 
+         validator.isEmpty(name) ||
+         (sku.trim() === "") ||
+         !sku || 
+         validator.isEmpty(sku)) {
             this.setState({ buttonDisabled: true });
         } else {
             this.setState({ buttonDisabled: false });
@@ -46,8 +53,9 @@ export class Products extends Component {
     }
 
     addProduct() {
-        console.log(this.state)
-        this.props.createProduct({ name: this.state.name, brandId: this.state.brandId }, this.successCallback.bind(this), this.errorCallback.bind(this))
+        console.log('print sku here')
+        console.log(this.state.sku)
+        this.props.createProduct({ name: this.state.name, brandId: this.state.brandId, sku: this.state.sku }, this.successCallback.bind(this), this.errorCallback.bind(this))
     }
 
     onBrandChange(evt, data) {
@@ -55,7 +63,7 @@ export class Products extends Component {
     }
 
     successCallback() {
-        this.setState({ addModal: false, name: '', address: '', brandId: '' })
+        this.setState({ addModal: false, name: '', address: '', brandId: '', sku: '' })
     }
 
     errorCallback() {
@@ -90,6 +98,14 @@ export class Products extends Component {
                                 />
                             </Form.Field>
                             <Form.Field>
+                                <label>SKU<sup>*</sup></label>
+                                <input 
+                                    name='sku' 
+                                    value={this.state.sku || ''} 
+                                    onChange={this.handleNameChange.bind(this)}
+                                />
+                            </Form.Field>
+                            <Form.Field>
                                 <label>Brand<sup>*</sup></label>
                                 <Dropdown 
                                     placeholder='Brand' 
@@ -101,7 +117,7 @@ export class Products extends Component {
                         {
                             this.state.error === true && 
                             <label>
-                                This product already exists for the same brand!
+                                This SKU already exists !!!
                             </label>
                         }
                         {
