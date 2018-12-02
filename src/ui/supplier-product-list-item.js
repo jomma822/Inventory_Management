@@ -6,14 +6,22 @@ export default class SupplierProductListItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit: false,
-            quantity: this.props.item.quantity
+            quantityEdit: false,
+            priceEdit: false,
+            quantity: this.props.item.quantity,
+            price: this.props.item.price
         }
     }
 
     onUpdateQuantity() {
         this.setState({
-            edit: true
+            quantityEdit: true
+        })
+    }
+
+    onUpdatePrice() {
+        this.setState({
+            priceEdit: true
         })
     }
 
@@ -21,7 +29,16 @@ export default class SupplierProductListItem extends Component {
         const { item } = this.props;
         this.props.updateQuantity(item.id, { quantity: this.state.quantity });
         this.setState({
-            edit: false,
+            quantityEdit: false,
+        })
+    }
+
+    onPriceSave() {
+        const { item } = this.props;
+        console.log(item)
+        this.props.updateQuantity(item.id, { price: this.state.price });
+        this.setState({
+            priceEdit: false,
         })
     }
 
@@ -35,6 +52,16 @@ export default class SupplierProductListItem extends Component {
         })
     }
 
+    onPriceChange(evt) {
+        if(evt.target.value <= 0) {
+            alert('Price should not be less than zero')
+            return;
+        }
+        this.setState({
+            price: evt.target.value
+        })
+    }
+
     render() {
         const { item } = this.props;
         return (
@@ -43,7 +70,8 @@ export default class SupplierProductListItem extends Component {
                 <Table.Cell>{item.product.brandName}</Table.Cell>
                 <Table.Cell>
                     {
-                        this.state.edit ? 
+                        this.state.quantityEdit
+                            ? 
                         (<span>
                             <input 
                                 name='quantity' 
@@ -59,7 +87,25 @@ export default class SupplierProductListItem extends Component {
                         )
                     }
                 </Table.Cell>
-                <Table.Cell>{item.price}</Table.Cell>
+                <Table.Cell>
+                    {
+                        this.state.priceEdit
+                            ? 
+                        (<span>
+                            <input 
+                                name='price' 
+                                type='double' 
+                                value={this.state.price} 
+                                onChange={this.onPriceChange.bind(this)}
+                            />
+                            <Button 
+                                floated='right' 
+                                onClick={this.onPriceSave.bind(this)}>Save</Button></span>)
+                        : (
+                            <span>{this.state.price} <Button floated='right' onClick={this.onUpdatePrice.bind(this)}>Update Price</Button></span>
+                        )
+                    }
+                </Table.Cell>
             </Table.Row>
         )
     }
