@@ -9,7 +9,9 @@ export class Checkout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            availableQuantity: 0
+            availableQuantity: 0,
+            sku: '',
+            email: ''
         }
     }
 
@@ -19,19 +21,36 @@ export class Checkout extends Component {
 
     onSupplierChange(evt, data) {
         this.props.getSupplierProducts(data.value);
-        this.setState({ supplierId: data.value });
+        this.setState({ supplierId: data.value, email: this.props.supplier.list[0].email });
     }
 
     onProductChange(evt, data) {
         const selectedSupplierProduct = this.props.supplier.supplierProducts
             .filter(supplier => supplier.product.id === data.value)
-        console.log('selected supplier product',selectedSupplierProduct)
-        this.setState({ productId: data.value, availableQuantity: selectedSupplierProduct[0].quantity, supplierProductId: selectedSupplierProduct[0].id });
+        console.log('selected supplier product',selectedSupplierProduct);
+        this.setState({ productId: data.value, 
+                        availableQuantity: selectedSupplierProduct[0].quantity,
+                        supplierProductId: selectedSupplierProduct[0].id,
+                        sku: selectedSupplierProduct[0].product.sku });
+        console.log('print state here', this.state)
     }
+
+    // work needed
+    // onBrandChange(evt, data) {
+    //     const selectedSupplierProduct = this.props.supplier.supplierProducts
+    //         .filter(supplier => supplier.product.id === data.value)
+    //     console.log('selected supplier product',selectedSupplierProduct)
+    //     this.setState({ productId: data.value, availableQuantity: selectedSupplierProduct[0].quantity, supplierProductId: selectedSupplierProduct[0].id });
+    // }
 
     checkout(evt) {
         evt.preventDefault();
-        this.props.checkout(this.state.supplierId, { selectedSupplierProductId: this.state.supplierProductId, quantity: this.state.quantity }, this.resetState.bind(this));
+        this.props.checkout(this.state.supplierId, 
+                            { selectedSupplierProductId: this.state.supplierProductId,
+                            sku: this.state.sku,
+                            quantity: this.state.quantity,
+                            email: this.state.email }, 
+                            this.resetState.bind(this));
         hashHistory.push('/dashboard')
     }
 
@@ -52,7 +71,6 @@ export class Checkout extends Component {
     }
 
     render() {
-        console.log(this.state)
         const supplierOptions = this.props.supplier.list.map(supplier => {
             return {
                 key: supplier.id,
@@ -60,6 +78,7 @@ export class Checkout extends Component {
                 text: supplier.name
             }
         })
+
         const productOptions = this.state.supplierId ? (this.props.supplier.supplierProducts
             .map(supplier => {
                 return supplier.product
@@ -70,6 +89,22 @@ export class Checkout extends Component {
                 text: sp.name
             }
         })) : []
+
+        // const brandOptions = this.state.supplierId ? (this.props.supplier.supplierProducts
+        //     .map(supplier => {
+        //         return supplier.product
+        //     }).map(sp => {
+        //     return {
+        //         key: sp.id,
+        //         value: sp.id,
+        //         text: sp.brandName
+        //     }
+        // })) : []
+
+        // validateBrandOptions() {
+        //     brandOptions.map
+        // }
+
         return (
             <div>
                 <Header>Checkout Products From Suppliers</Header>
@@ -82,6 +117,18 @@ export class Checkout extends Component {
                             onChange={this.onSupplierChange.bind(this)}
                         />
                     </Form.Field>
+                    {/* {
+                        this.state.supplierId && (
+                            <Form.Field>
+                                <label>Brand</label>
+                                    <Dropdown 
+                                        placeholder='Brand' 
+                                        search selection options={brandOptions} 
+                                        onChange={this.onBrandChange.bind(this)}
+                                    />
+                            </Form.Field>
+                        )                                
+                    } */}
                     {
                         this.state.supplierId && (
                             <Form.Field>

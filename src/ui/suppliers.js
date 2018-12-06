@@ -62,7 +62,7 @@ export class Suppliers extends Component {
         this.setState({ addModal: false, email: '', name: '', address: '', error: undefined, buttonDisabled: true })
     }
     errorCallback() {
-        this.setState({ error: 'Supplier with this name already exists' });
+        this.setState({ error: 'Supplier already exists' });
     }
     render() {
         const { list } =this.props.supplier;
@@ -79,15 +79,27 @@ export class Suppliers extends Component {
                         <Form>
                             <Form.Field>
                                 <label>Name<sup>*</sup></label>
-                                <input name='name' value={this.state.name || ''} onChange={this.handleInputChange.bind(this)}/>
+                                <input 
+                                    name='name' 
+                                    value={this.state.name || ''} 
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
                             </Form.Field>
                             <Form.Field>
                                 <label>Email<sup>*</sup></label>
-                                <input type='email' name='email' value={this.state.email || ''} onChange={this.handleInputChange.bind(this)}/>
+                                <input 
+                                    type='email' 
+                                    name='email' 
+                                    value={this.state.email || ''} 
+                                    onChange={this.handleInputChange.bind(this)}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Address<sup>*</sup></label>
-                                <input name='address' value={this.state.address || ''} onChange={this.handleInputChange.bind(this)}/>
+                                <input 
+                                    name='address' 
+                                    value={this.state.address || ''} 
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
                             </Form.Field>
                             <span><sup>*</sup> Please fill all the mandatory fields</span><br />
                             { this.state.error && <Label basic color='red'>{this.state.error}</Label> }
