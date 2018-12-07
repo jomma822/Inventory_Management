@@ -1,19 +1,78 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import validator from 'validator';
 import { getReports } from '../redux/modules';
 import { Table, Header, Form, Button } from 'semantic-ui-react';
+import moment from 'moment';
 
 class Report extends Component {
     
     constructor(props) {
         super(props);
         this.state = {
-
+            buttonDisabled: true,
         }
     }
 
+
     handleChange(evt){
+        const state = Object.assign({}, this.state, { [evt.target.name]: evt.target.value });
         this.setState({ [evt.target.name]: evt.target.value });
+        this.setState(state);
+        this.isFutureStartDate(state);
+        this.isFutureEndDate(state);
+    }
+
+    isFutureStartDate(state) {
+        let { startDate } = state;
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if (dd<10) {
+            dd='0'+dd;
+        } 
+
+        if (mm<10) {
+            mm='0'+mm;
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+
+        startDate = moment(startDate);
+        today = moment(today);
+
+        if (startDate.diff(today) < 0) {
+            this.setState({ buttonDisabled: true });
+        } 
+    }
+
+    isFutureEndDate(state) {
+        let { endDate, startDate } = state;
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if (dd<10) {
+            dd='0'+dd;
+        } 
+
+        if (mm<10) {
+            mm='0'+mm;
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+
+        endDate = moment(endDate);
+        today = moment(today);
+
+        if (endDate.diff(startDate) < 0 || endDate.diff(today) > 0) {
+            this.setState({ buttonDisabled: true });
+        } else {
+            this.setState({ buttonDisabled: false });
+        }
     }
 
     getReports() {
@@ -50,7 +109,9 @@ class Report extends Component {
                     </Form.Field>
                 </Form>
                 <br />
-                <Button onClick={this.getReports.bind(this)}>Get Reports</Button>
+                <Button 
+                    disabled={this.state.buttonDisabled}
+                    onClick={this.getReports.bind(this)}>Get Reports</Button>
             <Table celled>
                 <Table.Header>
                 <Table.Row>
@@ -63,7 +124,8 @@ class Report extends Component {
 
                 <Table.Body>
                 {
-                    reports.map(report => {
+                    (!reports === undefined || !reports.length == 0)
+                        ? reports.map(report => {
                         return (
                             <Table.Row>
                                 <Table.Cell >{report.supplierEmail}</Table.Cell>
@@ -72,7 +134,7 @@ class Report extends Component {
                                 <Table.Cell>{`${report.localDateTime.monthValue}-${report.localDateTime.dayOfMonth}-${report.localDateTime.year}`}</Table.Cell>
                             </Table.Row>
                         )
-                    })
+                    }) : 'No records found'
                 }
                 </Table.Body>
             </Table>
