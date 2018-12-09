@@ -118,6 +118,7 @@ class Report extends Component {
                     <Table.HeaderCell>Email</Table.HeaderCell>
                     <Table.HeaderCell>Product Name</Table.HeaderCell>
                     <Table.HeaderCell>Quantity</Table.HeaderCell>
+                    <Table.HeaderCell>Updated Quantity</Table.HeaderCell>
                     <Table.HeaderCell>Date</Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
@@ -131,6 +132,7 @@ class Report extends Component {
                                 <Table.Cell >{report.supplierEmail}</Table.Cell>
                                 <Table.Cell>{report.productName}</Table.Cell>
                                 <Table.Cell>{report.quantity}</Table.Cell>
+                                <Table.Cell>{report.updatedQuantity}</Table.Cell>
                                 <Table.Cell>{`${report.localDateTime.monthValue}-${report.localDateTime.dayOfMonth}-${report.localDateTime.year}`}</Table.Cell>
                             </Table.Row>
                         )
