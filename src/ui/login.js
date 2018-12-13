@@ -52,7 +52,7 @@ class Login extends Component {
                     </Form.Field>
                     {
                         this.state.error && (
-                            <label> Invalid Credentials </label>
+                            <label> Invalid Credentials, Please try Again! </label>
                         )
                     }
                 </Form>
